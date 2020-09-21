@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function App() {
+export default function App(): JSX.Element {
   return (
     <View style={styles.container}>
       <Text>Open up App.js to start working on your app!</Text>
