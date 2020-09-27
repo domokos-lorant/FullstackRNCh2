@@ -4,7 +4,7 @@ import { millisecondsToHuman } from "../utils/TimerUtils";
 import TimerButton from "./TimerButton";
 
 export type Props = {
-  id: number;
+  id: string;
   title: string;
   project: string;
   elapsed: number;
