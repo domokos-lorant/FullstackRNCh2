@@ -1,9 +1,9 @@
 import React, { useCallback, useState } from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
-import { EditableTimerProps, Timer } from "../model/Timer";
+import { EditableTimerProps } from "../model/Timer";
 import TimerButton from "./TimerButton";
 
-export type Props = Partial<Timer> & {
+export type Props = Partial<EditableTimerProps> & {
   onFormClose: () => void;
   onFormSubmit: (timer: EditableTimerProps) => void;
 };
@@ -38,7 +38,7 @@ export default function TimerForm({
   onFormSubmit,
 }: Props): JSX.Element {
   const submitText = id ? "Update" : "Create";
-  const initialState: EditableTimerProps = {
+  const initialState = {
     title: id && title ? title : "",
     project: id && project ? project : "",
   };
@@ -56,8 +56,7 @@ export default function TimerForm({
     [state, setState]
   );
   const handleSubmit = useCallback(() => {
-    const { title, project } = state;
-    onFormSubmit({ title, project });
+    onFormSubmit({ ...state, id: id || "" });
   }, [state, id, onFormSubmit]);
 
   return (

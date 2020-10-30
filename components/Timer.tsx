@@ -1,14 +1,14 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
+import { TimerProps } from "../model/Timer";
 import { millisecondsToHuman } from "../utils/TimerUtils";
 import TimerButton from "./TimerButton";
 
-export type Props = {
-  id: string;
-  title: string;
-  project: string;
-  elapsed: number;
-  isRunning: boolean;
+export type Props = TimerProps & {
+  onEditPress: () => void;
+  onRemovePress: () => void;
+  onStop: () => void;
+  onStart: () => void;
 };
 
 const styles = StyleSheet.create({
@@ -37,7 +37,8 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function Timer({ elapsed, title, project }: Props): JSX.Element {
+export default function Timer(props: Props): JSX.Element {
+  const { elapsed, title, project, onEditPress, onRemovePress } = props;
   const elapsedString = millisecondsToHuman(elapsed);
 
   return (
@@ -51,21 +52,42 @@ export default function Timer({ elapsed, title, project }: Props): JSX.Element {
           isSmall={true}
           color="blue"
           title="Edit"
-          onPress={() => {}}
+          onPress={onEditPress}
         />
         <TimerButton
           isSmall={true}
           color="blue"
           title="Remove"
-          onPress={() => {}}
+          onPress={onRemovePress}
         />
       </View>
+      {renderActionButton(props)}
+    </View>
+  );
+}
+
+function renderActionButton({
+  isRunning,
+  onStart,
+  onStop,
+}: Props): JSX.Element {
+  if (isRunning) {
+    return (
       <TimerButton
         isSmall={false}
         color="#21BA45"
-        title="Start"
-        onPress={() => {}}
+        title="Stop"
+        onPress={onStop}
       />
-    </View>
+    );
+  }
+
+  return (
+    <TimerButton
+      isSmall={false}
+      color="#21BA45"
+      title="Start"
+      onPress={onStart}
+    />
   );
 }
